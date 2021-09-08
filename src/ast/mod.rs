@@ -487,10 +487,16 @@ impl fmt::Display for WindowFrameUnits {
 pub enum WindowFrameBound {
     /// `CURRENT ROW`
     CurrentRow,
-    /// `<N> PRECEDING` or `UNBOUNDED PRECEDING`
-    Preceding(Option<u64>),
-    /// `<N> FOLLOWING` or `UNBOUNDED FOLLOWING`.
-    Following(Option<u64>),
+    /// `<N> PRECEDING` or `UNBOUNDED PRECEDING`, here we use String because when in range type
+    /// it is possible to be numeric. For back compatibility of Eq trait, we can't directly use
+    /// use f64 and instead will defer to clients to parse; failure to parse is considered execution
+    /// error.
+    Preceding(Option<String>),
+    /// `<N> FOLLOWING` or `UNBOUNDED FOLLOWING`, here we use String because when in range type
+    /// it is possible to be numeric. For back compatibility of Eq trait, we can't directly use
+    /// use f64 and instead will defer to clients to parse; failure to parse is considered execution
+    /// error.
+    Following(Option<String>),
 }
 
 impl fmt::Display for WindowFrameBound {
